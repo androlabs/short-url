@@ -11,7 +11,6 @@ import { ShortUrlDto } from './dto';
 import { CreateShortUrlService } from './services/create-short-url.service';
 
 @Controller('short-url')
-// TODO: interface implements
 export class ShortUrlController {
   constructor(private createShortUrlService: CreateShortUrlService) {}
 
