@@ -1,14 +1,20 @@
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
+import { MODELS } from 'src/enums';
 
 export interface ShortUrl extends Document {
   readonly name: string;
-  readonly email: number;
-  readonly password: string;
+  readonly originalUrl: string;
+  readonly shortUrl: string;
+  readonly userId: string;
 }
 
-export const ShortUrlSchema = new mongoose.Schema<ShortUrl>({
-  name: String,
-  email: String,
-  password: String,
-});
+export const ShortUrlSchema = new mongoose.Schema<ShortUrl>(
+  {
+    name: String,
+    originalUrl: String,
+    shortUrl: String,
+    userId: String,
+  },
+  { collection: MODELS.SHORT_URL_MODEL.COLLECTION },
+);

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { ShortUrl } from 'src/schemas/short-url.schema';
-import { CreateShortUrlDto } from '../dto';
+import { ShortUrlDto } from '../dto';
 
 @Injectable()
 export class CreateShortUrlService {
@@ -10,12 +10,8 @@ export class CreateShortUrlService {
     private shortUrl: Model<ShortUrl>,
   ) {}
 
-  async create(data: CreateShortUrlDto): Promise<ShortUrl> {
+  async execute(data: ShortUrlDto.Create): Promise<ShortUrl> {
     const shortUrl = new this.shortUrl(data);
     return shortUrl.save();
-  }
-
-  async findAll(): Promise<ShortUrl[]> {
-    return this.shortUrl.find().exec();
   }
 }

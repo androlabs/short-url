@@ -1,11 +1,12 @@
 import { Connection } from 'mongoose';
+import { DATABASE_CONNECTION, MODELS } from 'src/enums';
 import { ShortUrlSchema } from 'src/schemas/short-url.schema';
 
 export const shortUrlProviders = [
   {
-    provide: 'SHORT_URL_MODEL',
+    provide: MODELS.SHORT_URL_MODEL.NAME,
     useFactory: (connection: Connection) =>
-      connection.model('ShortUrl', ShortUrlSchema),
-    inject: ['DATABASE_CONNECTION'],
+      connection.model(MODELS.SHORT_URL_MODEL.COLLECTION, ShortUrlSchema),
+    inject: [DATABASE_CONNECTION],
   },
 ];
