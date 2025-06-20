@@ -7,8 +7,5 @@ export namespace ShortUrlDto {
 
     @IsString()
     originalUrl: string;
-
-    @IsString()
-    shortUrl: string;
   }
 }

@@ -3,16 +3,20 @@ import {
   Controller,
   HttpCode,
   HttpStatus,
+  Inject,
   Post,
   Version,
 } from '@nestjs/common';
 import { ShortUrl } from 'src/schemas/short-url.schema';
+import { ICreateShortUrlService } from '../../contracts';
 import { ShortUrlDto } from './dto';
-import { CreateShortUrlService } from './services/create-short-url.service';
 
 @Controller('short-url')
 export class ShortUrlController {
-  constructor(private createShortUrlService: CreateShortUrlService) {}
+  constructor(
+    @Inject('ICreateShortUrlService')
+    private createShortUrlService: ICreateShortUrlService,
+  ) {}
 
   @Version('1')
   @Post()
