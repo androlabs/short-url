@@ -24,7 +24,7 @@ export interface SecurityConfig {
   refreshIn: string;
   confirmIn: string;
   passwordIn: string;
-  bcryptSaltOrRound: string | number;
+  bcryptSaltOrRound: number;
 }
 
 export interface MongoDbConfig {
