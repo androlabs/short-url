@@ -5,4 +5,8 @@ export const MODELS = {
     NAME: 'SHORT_URL_MODEL',
     COLLECTION: 'short-url',
   },
+  USER_MODEL: {
+    NAME: 'USER_MODEL',
+    COLLECTION: 'user',
+  },
 };

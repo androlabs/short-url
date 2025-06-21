@@ -31,6 +31,7 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-argument': 'warn',
       '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/require-await': 'off',
     },
   },
 );

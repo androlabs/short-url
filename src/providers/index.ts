@@ -1,1 +1,1 @@
-export * from './short-provider.provider';
+export * from './schemas.provider';
