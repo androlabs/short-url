@@ -17,4 +17,10 @@ export namespace ShortUrlDto {
     })
     originalUrl: string;
   }
+
+  export class CreateDB {
+    name: string;
+    originalUrl: string;
+    shortUrl: string;
+  }
 }

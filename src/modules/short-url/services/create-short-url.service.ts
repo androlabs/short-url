@@ -1,16 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Injectable } from '@nestjs/common';
 import { ICreateShortUrlService } from 'src/contracts';
-import { MODELS } from 'src/enums';
 import { ShortUrl } from 'src/schemas/short-url.schema';
 import { ShortUrlDto } from '../dto';
+import { ShortUrlRepository } from '../repository';
 
 @Injectable()
 export class CreateShortUrlService implements ICreateShortUrlService {
-  constructor(
-    @Inject(MODELS.SHORT_URL_MODEL.NAME)
-    private shortUrl: Model<ShortUrl>,
-  ) {}
+  constructor(private shortUrl: ShortUrlRepository) {}
 
   private generateShortId(size: number = 6): string {
     const tokens =
@@ -18,18 +14,17 @@ export class CreateShortUrlService implements ICreateShortUrlService {
     let result = '';
 
     for (let i = 0; i < size; i++) {
-      const indice = Math.floor(Math.random() * tokens.length);
-      result += tokens.charAt(indice);
+      const index = Math.floor(Math.random() * tokens.length);
+      result += tokens.charAt(index);
     }
 
     return result;
   }
 
   async execute(data: ShortUrlDto.Create): Promise<ShortUrl> {
-    const shortUrl = new this.shortUrl({
+    return this.shortUrl.save({
       ...data,
       shortUrl: this.generateShortId(),
     });
-    return shortUrl.save();
   }
 }
