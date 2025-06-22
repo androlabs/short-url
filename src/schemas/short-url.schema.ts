@@ -18,3 +18,11 @@ export const ShortUrlSchema = new mongoose.Schema<ShortUrl>(
   },
   { collection: MODELS.SHORT_URL_MODEL.COLLECTION },
 );
+
+ShortUrlSchema.set('toJSON', {
+  transform: function (_doc, ret) {
+    delete ret._id;
+    delete ret.__v;
+    return ret;
+  },
+});

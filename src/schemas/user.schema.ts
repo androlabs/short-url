@@ -18,3 +18,12 @@ export const UserSchema = new mongoose.Schema<User>(
   },
   { collection: MODELS.USER_MODEL.COLLECTION },
 );
+
+UserSchema.set('toJSON', {
+  transform: function (_doc, ret) {
+    delete ret._id;
+    delete ret.__v;
+    delete ret.password;
+    return ret;
+  },
+});
