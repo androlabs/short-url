@@ -20,7 +20,7 @@ export class AuthController {
   ) {}
 
   @Version('1')
-  @Post()
+  @Post('sign-up')
   @HttpCode(HttpStatus.CREATED)
   @ApiCreatedResponse({ type: AuthDto.SignUp })
   public async createShortUrlV1(@Body() data: AuthDto.SignUp): Promise<User> {
