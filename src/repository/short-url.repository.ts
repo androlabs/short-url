@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { IShortUrlRepository } from 'src/contracts';
 import { MODELS } from 'src/enums';
+import { ShortUrlDto } from 'src/modules/short-url/dto';
 import { ShortUrl } from 'src/schemas/short-url.schema';
-import { ShortUrlDto } from '../dto';
 
 @Injectable()
 export class ShortUrlRepository implements IShortUrlRepository {
@@ -11,13 +11,13 @@ export class ShortUrlRepository implements IShortUrlRepository {
 
   constructor(
     @Inject(MODELS.SHORT_URL_MODEL.NAME)
-    private readonly shortUrl: Model<ShortUrl>,
+    private readonly _model: Model<ShortUrl>,
   ) {
-    this.model = this.shortUrl;
+    this.model = this._model;
   }
 
   save(data: ShortUrlDto.CreateDB): Promise<ShortUrl> {
-    const instance = new this.shortUrl(data);
+    const instance = new this.model(data);
     return instance.save();
   }
 }

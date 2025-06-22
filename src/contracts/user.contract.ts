@@ -1,6 +1,12 @@
-import { ShortUrlDto } from 'src/modules/short-url/dto';
-import { ShortUrl } from 'src/schemas/short-url.schema';
+import { Model } from 'mongoose';
+import { CreateUserDto } from 'src/modules/user/dto';
+import { User } from 'src/schemas/user.schema';
 
-export interface IShortUrlRepository {
-  save(data: ShortUrlDto.CreateDB): Promise<ShortUrl>;
+export interface ICreateUserService {
+  save(data: CreateUserDto): Promise<User>;
+}
+
+export interface IUserRepository {
+  model: Model<User>;
+  save(data: CreateUserDto): Promise<User>;
 }

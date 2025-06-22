@@ -1,12 +1,14 @@
-import { Injectable } from '@nestjs/common';
-import { ICreateShortUrlService } from 'src/contracts';
+import { Inject, Injectable } from '@nestjs/common';
+import { ICreateShortUrlService, IShortUrlRepository } from 'src/contracts';
 import { ShortUrl } from 'src/schemas/short-url.schema';
 import { ShortUrlDto } from '../dto';
-import { ShortUrlRepository } from '../repository';
 
 @Injectable()
 export class CreateShortUrlService implements ICreateShortUrlService {
-  constructor(private shortUrl: ShortUrlRepository) {}
+  constructor(
+    @Inject('IShortUrlRepository')
+    private shortUrl: IShortUrlRepository,
+  ) {}
 
   private generateShortId(size: number = 6): string {
     const tokens =

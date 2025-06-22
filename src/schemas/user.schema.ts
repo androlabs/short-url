@@ -9,7 +9,7 @@ export interface User extends Document {
   readonly password: string;
 }
 
-export const ShortUrlSchema = new mongoose.Schema<User>(
+export const UserSchema = new mongoose.Schema<User>(
   {
     id: String,
     name: String,

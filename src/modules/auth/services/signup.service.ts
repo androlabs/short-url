@@ -1,26 +1,31 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
-import { IPasswordService, ISignUpService } from 'src/contracts/auth.contract';
-import { MODELS } from 'src/enums';
+import { randomUUID } from 'crypto';
+import {
+  ICreateUserService,
+  IPasswordService,
+  ISignUpService,
+} from 'src/contracts';
 import { User } from 'src/schemas/user.schema';
-import { AuthDto } from '../dto/auth.dto';
+import { AuthDto } from '../dto';
 
 @Injectable()
 export class SignUpService implements ISignUpService {
   constructor(
-    @Inject(MODELS.USER_MODEL.NAME)
-    private user: Model<User>,
+    @Inject('ICreateUserService')
+    private createUserService: ICreateUserService,
     @Inject('IPasswordService')
     private passwordService: IPasswordService,
   ) {}
 
   async execute(data: AuthDto.SignUp): Promise<User> {
-    console.log(data);
     const passwordHash = await this.passwordService.hashPassword(data.password);
-    console.log(passwordHash);
 
-    // TODO: verify if user not have exist email
+    const user = await this.createUserService.save({
+      ...data,
+      id: randomUUID(),
+      password: passwordHash,
+    });
 
-    return null as unknown as User;
+    return user;
   }
 }
