@@ -26,3 +26,5 @@ export const env: Config = {
     dbName: String(process.env.MONGO_DB_NAME),
   },
 };
+
+export default (): Config => env;
