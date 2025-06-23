@@ -16,17 +16,14 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const request = context.switchToHttp().getRequest() as Request;
     const token = this.extractTokenFromHeader(request);
     if (!token) throw new UnauthorizedException();
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const payload = await this.jwtService.verifyAsync(token, {
         secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       request['user'] = payload;
     } catch {
       throw new UnauthorizedException();
