@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { schemasProviders } from 'src/providers';
 import { UserRepository } from 'src/repository/user.repository';
 import { DatabaseModule } from '../database/database.module';
-import { CreateUserService } from './services';
+import { CreateUserService, UserService } from './services';
 import { UserController } from './user.controller';
 
 @Module({
@@ -10,6 +10,10 @@ import { UserController } from './user.controller';
   imports: [DatabaseModule],
   providers: [
     ...schemasProviders,
+    {
+      provide: 'IUserService',
+      useClass: UserService,
+    },
     {
       provide: 'ICreateUserService',
       useClass: CreateUserService,
@@ -20,9 +24,14 @@ import { UserController } from './user.controller';
     },
   ],
   exports: [
+    ...schemasProviders,
     {
       provide: 'ICreateUserService',
       useClass: CreateUserService,
+    },
+    {
+      provide: 'IUserService',
+      useClass: UserService,
     },
   ],
 })

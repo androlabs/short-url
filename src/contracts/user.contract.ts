@@ -6,6 +6,11 @@ export interface ICreateUserService {
   save(data: CreateUserDto): Promise<User>;
 }
 
+export interface IUserService {
+  getById(id: string): Promise<User | null>;
+  getByEmail(email: string): Promise<User | null>;
+}
+
 export interface IUserRepository {
   model: Model<User>;
   save(data: CreateUserDto): Promise<User>;
