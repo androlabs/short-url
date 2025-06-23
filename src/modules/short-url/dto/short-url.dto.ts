@@ -16,11 +16,13 @@ export namespace ShortUrlDto {
       example: 'https://google.com',
     })
     originalUrl: string;
+    userId: string;
   }
 
   export class CreateDB {
     name: string;
     originalUrl: string;
     shortUrl: string;
+    userId: string;
   }
 }

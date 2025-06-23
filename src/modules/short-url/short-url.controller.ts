@@ -5,18 +5,19 @@ import {
   HttpStatus,
   Inject,
   Post,
+  UseGuards,
   Version,
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiHeader } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCreatedResponse } from '@nestjs/swagger';
+import { User } from 'src/decorators';
 import { ShortUrl } from 'src/schemas/short-url.schema';
 import { ICreateShortUrlService } from '../../contracts';
+import { AuthDto } from '../auth/dto';
 import { ShortUrlDto } from './dto';
+import { AuthGuard } from 'src/guards';
 
+@ApiBearerAuth()
 @Controller('short-url')
-@ApiHeader({
-  name: 'Authorization',
-  description: 'JWT Token',
-})
 export class ShortUrlController {
   constructor(
     @Inject('ICreateShortUrlService')
@@ -25,11 +26,16 @@ export class ShortUrlController {
 
   @Version('1')
   @Post()
+  @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.CREATED)
   @ApiCreatedResponse({ type: ShortUrlDto.Create })
   public async createShortUrlV1(
     @Body() data: ShortUrlDto.Create,
+    @User() decode: AuthDto.EncodeToken,
   ): Promise<ShortUrl> {
-    return await this.createShortUrlService.execute(data);
+    return await this.createShortUrlService.execute({
+      ...data,
+      userId: decode.userId,
+    });
   }
 }
