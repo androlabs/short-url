@@ -1,14 +1,18 @@
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as dotenv from 'dotenv';
 import { AppModule } from './app.module';
-import { env } from './config';
+import { CorsConfig, NestConfig } from './config/config.interface';
 
 async function bootstrap() {
+  dotenv.config();
+
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
@@ -29,7 +33,12 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
+  const configService = app.get(ConfigService);
+  const nestConfig = configService.get<NestConfig>('nest') as NestConfig;
+  const corsConfig = configService.get<CorsConfig>('cors') as CorsConfig;
+
   app.enableVersioning();
-  await app.listen(env.nest.port);
+  if (corsConfig.enabled) app.enableCors({ origin: '*' });
+  await app.listen(nestConfig.port);
 }
 bootstrap();
