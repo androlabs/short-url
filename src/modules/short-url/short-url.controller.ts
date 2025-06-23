@@ -10,11 +10,11 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse } from '@nestjs/swagger';
 import { User } from 'src/decorators';
-import { ShortUrl } from 'src/schemas/short-url.schema';
+import { AuthGuard } from 'src/guards';
 import { ICreateShortUrlService } from '../../contracts';
 import { AuthDto } from '../auth/dto';
 import { ShortUrlDto } from './dto';
-import { AuthGuard } from 'src/guards';
+import { ShortUrl } from 'src/schemas';
 
 @ApiBearerAuth()
 @Controller('short-url')

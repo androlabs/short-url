@@ -1,7 +1,6 @@
 import { Connection } from 'mongoose';
 import { DATABASE_CONNECTION, MODELS } from 'src/enums';
-import { ShortUrlSchema } from 'src/schemas/short-url.schema';
-import { UserSchema } from 'src/schemas/user.schema';
+import { ShortUrlSchema, UserSchema } from 'src/schemas';
 
 export const schemasProviders = [
   {

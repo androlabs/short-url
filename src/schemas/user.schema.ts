@@ -1,6 +1,19 @@
+import { ApiProperty } from '@nestjs/swagger';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
 import { MODELS } from 'src/enums';
+
+export class UserSwaggerDto {
+  @ApiProperty({
+    type: String,
+    example: 'c38ac87e-b582-45c8-9bec-0a6f481ceb0e',
+  })
+  id: string;
+  @ApiProperty({ type: String, example: 'Gabriel' })
+  name: string;
+  @ApiProperty({ type: String, example: 'gabriel@email.com' })
+  email: string;
+}
 
 export interface User extends Document {
   readonly id: string;

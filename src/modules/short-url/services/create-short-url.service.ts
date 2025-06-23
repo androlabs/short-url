@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ICreateShortUrlService, IShortUrlRepository } from 'src/contracts';
-import { ShortUrl } from 'src/schemas/short-url.schema';
 import { ShortUrlDto } from '../dto';
+import { ShortUrl } from 'src/schemas';
 
 @Injectable()
 export class CreateShortUrlService implements ICreateShortUrlService {

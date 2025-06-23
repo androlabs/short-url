@@ -8,8 +8,8 @@ import {
   IUserRepository,
   IUserService,
 } from 'src/contracts';
-import { User } from 'src/schemas/user.schema';
 import { CreateUserDto } from '../dto';
+import { User } from 'src/schemas';
 
 @Injectable()
 export class CreateUserService implements ICreateUserService {

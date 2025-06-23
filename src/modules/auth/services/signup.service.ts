@@ -5,8 +5,8 @@ import {
   IPasswordService,
   ISignUpService,
 } from 'src/contracts';
-import { User } from 'src/schemas/user.schema';
 import { AuthDto } from '../dto';
+import { User } from 'src/schemas';
 
 @Injectable()
 export class SignUpService implements ISignUpService {

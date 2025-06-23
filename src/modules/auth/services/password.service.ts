@@ -3,8 +3,8 @@ import { ConfigService } from '@nestjs/config';
 
 import { compare, hash } from 'bcrypt';
 import { randomUUID } from 'crypto';
-import { SecurityConfig } from 'src/config/config.interface';
-import { IPasswordService } from 'src/contracts/auth.contract';
+import { SecurityConfig } from 'src/config';
+import { IPasswordService } from 'src/contracts';
 
 @Injectable()
 export class PasswordService implements IPasswordService {
