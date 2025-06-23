@@ -24,6 +24,7 @@ async function bootstrap() {
       .setDescription('The short-url API description')
       .setVersion('1.0')
       .addTag('short-url')
+      .addBearerAuth()
       .build();
     const documentFactory = () => SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('swagger', app, documentFactory, {
