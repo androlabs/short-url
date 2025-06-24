@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Inject,
   Post,
+  Query,
   UseGuards,
   Version,
 } from '@nestjs/common';
@@ -14,7 +15,12 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { ILoginService, ISignUpService, IUserService } from 'src/contracts';
+import {
+  ILoginService,
+  ISignUpService,
+  ITokenService,
+  IUserService,
+} from 'src/contracts';
 import { User } from 'src/decorators';
 import { AuthGuard } from 'src/guards';
 import { User as UserDto, UserSwaggerDto } from 'src/schemas';
@@ -30,6 +36,8 @@ export class AuthController {
     private loginService: ILoginService,
     @Inject('IUserService')
     private userService: IUserService,
+    @Inject('ITokenService')
+    private tokenService: ITokenService,
   ) {}
 
   @Version('1')
@@ -57,11 +65,8 @@ export class AuthController {
     return await this.userService.getById(decode.userId);
   }
 
-  // @UseGuards(AuthGuard)
-  // @Get('refresh-token')
-  // async refreshToken(
-  //   @Query('refreshToken') refreshToken: string,
-  // ): Promise<AuthDto.Token> {
-  //   return await this.userService.getById(decode.userId);
-  // }
+  @Get('refresh-token')
+  async refreshToken(@Query('token') token: string): Promise<AuthDto.Token> {
+    return this.tokenService.refreshToken(token);
+  }
 }

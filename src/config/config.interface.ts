@@ -22,8 +22,6 @@ export interface ThrottlerConfig {
 export interface SecurityConfig {
   expiresIn: string;
   refreshIn: string;
-  confirmIn: string;
-  passwordIn: string;
   bcryptSaltOrRound: number;
 }
 

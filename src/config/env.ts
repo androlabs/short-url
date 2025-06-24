@@ -15,10 +15,8 @@ export const env: Config = {
     limit: 100,
   },
   security: {
-    expiresIn: '7d',
-    refreshIn: '14d',
-    confirmIn: '2d',
-    passwordIn: '1d',
+    expiresIn: '1d',
+    refreshIn: '7d',
     bcryptSaltOrRound: 10,
   },
   mongoDb: {

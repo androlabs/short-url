@@ -3,9 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
+import { SecurityConfig } from 'src/config';
 import { ITokenService } from 'src/contracts';
 import { AuthDto } from '../dto';
-import { SecurityConfig } from 'src/config';
 
 @Injectable()
 export class TokenService implements ITokenService {
