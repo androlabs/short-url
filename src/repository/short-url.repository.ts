@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { IShortUrlRepository } from 'src/contracts';
 import { MODELS } from 'src/enums';
 import { ShortUrlDto } from 'src/modules/short-url/dto';
-import { ShortUrl } from 'src/schemas/short-url.schema';
+import { ShortUrl } from 'src/schemas';
 
 @Injectable()
 export class ShortUrlRepository implements IShortUrlRepository {
