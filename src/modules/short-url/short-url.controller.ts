@@ -5,6 +5,8 @@ import {
   HttpCode,
   HttpStatus,
   Inject,
+  NotFoundException,
+  Param,
   Post,
   Query,
   UseGuards,
@@ -13,6 +15,7 @@ import {
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
 import { ICreateShortUrlService, IShortUrlService } from 'src/contracts';
@@ -52,7 +55,7 @@ export class ShortUrlController {
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: ShortUrlPagination.Response })
-  public async listByUser(
+  public async listByUserV1(
     @Query() params: ShortUrlPagination.Params,
     @User() decode: AuthDto.EncodeToken,
   ): Promise<ShortUrlPagination.Response> {
@@ -63,5 +66,18 @@ export class ShortUrlController {
       page: Number(params.page),
     };
     return await this.shortUrlService.listByUser(params);
+  }
+
+  @Version('1')
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  @ApiNotFoundResponse()
+  @ApiOkResponse()
+  public async redirectV1(@Param('id') id: string): Promise<{ url: string }> {
+    const result = await this.shortUrlService.getById(id);
+
+    if (!result?.shortUrl) throw new NotFoundException('URL invalid');
+
+    return { url: result.originalUrl };
   }
 }
