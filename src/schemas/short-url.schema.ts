@@ -13,11 +13,13 @@ export const ShortUrlSchema = new mongoose.Schema<ShortUrl>(
   {
     name: String,
     originalUrl: String,
-    shortUrl: String,
-    userId: String,
+    shortUrl: { type: String, index: true, unique: true },
+    userId: { type: String, index: true },
   },
   { collection: MODELS.SHORT_URL_MODEL.COLLECTION },
 );
+
+ShortUrlSchema.index({ shortUrl: 1, userId: 1 });
 
 ShortUrlSchema.set('toJSON', {
   transform: function (_doc, ret) {

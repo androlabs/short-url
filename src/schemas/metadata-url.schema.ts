@@ -12,7 +12,7 @@ export interface MetadataUrl extends Document {
 
 export const MetadataUrlSchema = new mongoose.Schema<MetadataUrl>(
   {
-    shortUrl: String,
+    shortUrl: { type: String, index: true },
     userAgent: String,
     origin: String,
     datetimeUtc: Date,
@@ -20,6 +20,8 @@ export const MetadataUrlSchema = new mongoose.Schema<MetadataUrl>(
   },
   { collection: MODELS.METADATA_URL_MODEL.COLLECTION },
 );
+
+MetadataUrlSchema.index({ shortUrl: 1, datetimeUtc: -1 });
 
 MetadataUrlSchema.set('toJSON', {
   transform: function (_doc, ret) {
