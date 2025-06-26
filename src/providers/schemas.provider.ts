@@ -1,6 +1,6 @@
 import { Connection } from 'mongoose';
 import { DATABASE_CONNECTION, MODELS } from 'src/enums';
-import { ShortUrlSchema, UserSchema } from 'src/schemas';
+import { MetadataUrlSchema, ShortUrlSchema, UserSchema } from 'src/schemas';
 
 export const schemasProviders = [
   {
@@ -13,6 +13,12 @@ export const schemasProviders = [
     provide: MODELS.USER_MODEL.NAME,
     useFactory: (connection: Connection) =>
       connection.model(MODELS.USER_MODEL.COLLECTION, UserSchema),
+    inject: [DATABASE_CONNECTION],
+  },
+  {
+    provide: MODELS.METADATA_URL_MODEL.NAME,
+    useFactory: (connection: Connection) =>
+      connection.model(MODELS.METADATA_URL_MODEL.COLLECTION, MetadataUrlSchema),
     inject: [DATABASE_CONNECTION],
   },
 ];

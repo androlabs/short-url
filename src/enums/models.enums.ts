@@ -9,4 +9,8 @@ export const MODELS = {
     NAME: 'USER_MODEL',
     COLLECTION: 'user',
   },
+  METADATA_URL_MODEL: {
+    NAME: 'METADATA_URL_MODEL',
+    COLLECTION: 'metadata-url',
+  },
 };

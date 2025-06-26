@@ -9,6 +9,7 @@ import {
   Param,
   Post,
   Query,
+  Request,
   UseGuards,
   Version,
 } from '@nestjs/common';
@@ -18,7 +19,12 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { ICreateShortUrlService, IShortUrlService } from 'src/contracts';
+import { Request as RequestExpress } from 'express';
+import {
+  ICreateShortUrlService,
+  IMetadataUrlService,
+  IShortUrlService,
+} from 'src/contracts';
 import { User } from 'src/decorators';
 import { AuthGuard } from 'src/guards';
 import { ShortUrl } from 'src/schemas';
@@ -33,6 +39,8 @@ export class ShortUrlController {
     private createShortUrlService: ICreateShortUrlService,
     @Inject('IShortUrlService')
     private shortUrlService: IShortUrlService,
+    @Inject('IMetadataUrlService')
+    private metadataUrlService: IMetadataUrlService,
   ) {}
 
   @Version('1')
@@ -73,10 +81,21 @@ export class ShortUrlController {
   @HttpCode(HttpStatus.OK)
   @ApiNotFoundResponse()
   @ApiOkResponse()
-  public async redirectV1(@Param('id') id: string): Promise<{ url: string }> {
+  public async redirectV1(
+    @Param('id') id: string,
+    @Request() req: RequestExpress,
+  ): Promise<{ url: string }> {
     const result = await this.shortUrlService.getById(id);
 
     if (!result?.shortUrl) throw new NotFoundException('URL invalid');
+
+    await this.metadataUrlService.save({
+      shortUrl: result.shortUrl,
+      userAgent: req.headers['user-agent'] ?? 'unknown',
+      origin: (req.headers['x-forward-for'] as string) ?? req.ip,
+      datetimeUtc: new Date(),
+      host: (req.headers['host'] as string) ?? 'unknown',
+    });
 
     return { url: result.originalUrl };
   }
